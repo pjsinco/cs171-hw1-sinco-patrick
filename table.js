@@ -166,37 +166,36 @@
 
           // check the class so we know how to sort
           var curOrder = d3.select(this).attr('class');
-          //var row = 
-         
-          if (curOrder == 'desc') { 
 
-            tbody.selectAll('tr')
-              .sort(function(a, b) {
+          tbody.selectAll('tr')
+            .sort(function(a, b) {
+              if (curOrder == 'desc') {
+
                 // if we have a rate tie, first sort by state name
                 if (d3.ascending(parseFloat(a[2]), parseFloat(b[2])) == 0) {
-                  return d3.ascending(a[1], b[1]); // return the sorted state names
+
+                  // return the sorted state names
+                  return d3.ascending(a[1], b[1]); 
                 }
                 return d3.ascending(parseFloat(a[2]),
                   parseFloat(b[2]));
-              });
+              } else {
 
-          } else {
-            tbody.selectAll('tr')
-              .sort(function(a, b) {
                 // if we have a rate tie, first sort by state name
                 if (d3.descending(parseFloat(a[2]), parseFloat(b[2])) == 0) {
-                  return d3.descending(a[1], b[1]); // return the sorted state names
+
+                  // return the sorted state names
+                  return d3.descending(a[1], b[1]); 
                 }
                 return d3.descending(parseFloat(a[2]),
                   parseFloat(b[2]));
-              });
-          }
+              }
+            });
 
           d3.select(this)
             .attr('class', function() {
               return curOrder == 'asc' ? 'desc' : 'asc';
             });
-
 
           stripeRows();
         });
