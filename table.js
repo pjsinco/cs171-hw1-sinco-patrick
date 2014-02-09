@@ -6,9 +6,9 @@
     'unemp_states_us_nov_2013.tsv', 
     'text/plain', 
     function(data) {
-      var title = 'Unemployment Rates for States\n';
-      title += 'Monthly Rankings\n';
-      title += 'Seasonally Adjusted\n';
+      var title = 'Unemployment Rates for States<br>';
+      title += 'Monthly Rankings<br>';
+      title += 'Seasonally Adjusted<br>';
       title += 'Nov. 2013';
 
       d3.select('body').append('h1')
@@ -21,7 +21,7 @@
       var tbody = table.append('tbody');
 
       d3.select('caption')
-        .text(title);
+        .html(title);
 
       console.log(title);
  
@@ -56,6 +56,31 @@
           .text(function(d) {
             return d;
           });
+
+      var selectedRowColor;
+
+      var highlightRow = function(row) {
+        row.style('background-color', 'yellow');
+      }
+
+      var unHighlightRow = function(row) {
+        row.style('background-color', selectedRowColor);
+        selectedRowColor = '';
+      }
+
+      d3.selectAll('td')
+        .on('mouseover', function(d, i) {
+          // keep track the color of the row
+          selectedRowColor = this.parentNode.style.backgroundColor;
+          highlightRow(d3.select(this.parentNode)); // select row
+        });
+
+      d3.selectAll('td')
+        .on('mouseout', function(d, i) {
+          unHighlightRow(d3.select(this.parentNode));
+        });
+
+
     }
   );
 
