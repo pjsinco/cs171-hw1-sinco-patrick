@@ -57,6 +57,8 @@
             return d;
           });
 
+      // keep track of row's original color,
+      // before being highlighted
       var selectedRowColor;
 
       var highlightRow = function(row) {
@@ -73,11 +75,39 @@
           // keep track the color of the row
           selectedRowColor = this.parentNode.style.backgroundColor;
           highlightRow(d3.select(this.parentNode)); // select row
+          var colNum;
+          if (i % 3 == 0) {
+            colNum = 0;
+          } else if ((i - 1) % 3 == 0) {
+            colNum = 1; 
+          } else {
+            colNum = 2;
+          }
+
+          var cols = [];
+          var allCells = d3.selectAll('td');
+          for (var index = 0; index < allCells[0].length;
+            index += 3) {
+            cols.push(index + colNum);
+          }
+
+          //console.log(cols);
+          var col = d3.selectAll('td')
+            .filter(function(d, i) {
+              return cols.indexOf(i) > -1;
+            })
+              .style('background-color', 'yellow');
+
+          console.log(cols);
+              
         });
 
       d3.selectAll('td')
         .on('mouseout', function(d, i) {
           unHighlightRow(d3.select(this.parentNode));
+          d3.selectAll('tr') 
+          
+
         });
 
 
