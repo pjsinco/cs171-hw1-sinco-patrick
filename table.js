@@ -70,6 +70,8 @@
         selectedRowColor = '';
       }
 
+      var cols = []; // track cell indices to highlight
+
       d3.selectAll('td')
         .on('mouseover', function(d, i) {
           // keep track the color of the row
@@ -84,7 +86,6 @@
             colNum = 2;
           }
 
-          var cols = [];
           var allCells = d3.selectAll('td');
           for (var index = 0; index < allCells[0].length;
             index += 3) {
@@ -105,12 +106,20 @@
       d3.selectAll('td')
         .on('mouseout', function(d, i) {
           unHighlightRow(d3.select(this.parentNode));
-          d3.selectAll('tr') 
-          
-
+          console.log(cols);
+          d3.selectAll('td')
+            .filter(function(d, i) {
+              return cols.indexOf(i) > -1;
+            })
+              .style('background-color', function (d, i) {
+                if (i % 2 == 0) {
+                  return '#d0d0d0';
+                } else {
+                  return '#ffffff';
+                }
+              });
+          cols = [];
         });
-
-
     }
   );
 
