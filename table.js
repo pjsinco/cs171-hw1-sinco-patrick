@@ -57,6 +57,13 @@
             return d;
           });
 
+      var color = d3.scale.linear()
+        .domain([0, tbody.selectAll('tr')[0].length - 1])
+        .interpolate(d3.interpolateRgb)
+        .range(['orangered', 'silver']);
+
+      //console.log(color(5));
+
       // add zebra stripes to rows
       var stripeRows = function() {
         tbody.selectAll('tr')
@@ -220,6 +227,8 @@
 
           stripeRows();
         });
+
+      //console.log(tbody.selectAll('tr')[0].length);
 
     } // end d3.text()
   );
