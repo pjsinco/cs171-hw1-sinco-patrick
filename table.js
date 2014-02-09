@@ -132,6 +132,7 @@
             .style('cursor', 'pointer');
         });
 
+      // sort by state name
       thead.select('th:nth-child(2)')
         .on('click', function(d, i) {
           tbody.selectAll('tr')
@@ -141,16 +142,19 @@
           stripeRows();
         });
 
+      // sort by rate 
       thead.select('th:nth-child(3)')
-        .on('click', function() {
-          console.log(this);
+        .on('click', function(d, i) {
           tbody.selectAll('tr')
             .sort(function(a, b) {
-              //console.log('compare', parseFloat(a[2]), 
-                //parseFloat(b[2]));
+              // if we have a rate tie, first sort by state name
+              if (d3.ascending(parseFloat(a[2]), parseFloat(b[2])) == 0) {
+                return d3.ascending(a[1], b[1]); // return the sorted state names
+              }
               return d3.ascending(parseFloat(a[2]),
                 parseFloat(b[2]));
             });
+
           stripeRows();
         });
 
