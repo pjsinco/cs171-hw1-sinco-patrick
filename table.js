@@ -1,7 +1,5 @@
 (function() {
 
-  console.log('table table table');
-
   d3.text(
     'unemp_states_us_nov_2013.tsv', 
     'text/plain', 
@@ -70,13 +68,18 @@
         selectedRowColor = '';
       }
 
-      var cols = []; // track cell indices to highlight
+      var columnCells = []; // track cell indices to highlight
 
       d3.selectAll('td')
         .on('mouseover', function(d, i) {
+
           // keep track the color of the row
           selectedRowColor = this.parentNode.style.backgroundColor;
-          highlightRow(d3.select(this.parentNode)); // select row
+
+          // select current row and highlight
+          highlightRow(d3.select(this.parentNode));
+
+          // set column number to highlight: 0, 1 or 2
           var colNum;
           if (i % 3 == 0) {
             colNum = 0;
@@ -86,39 +89,32 @@
             colNum = 2;
           }
 
+          // add all cells in the column to highlight
           var allCells = d3.selectAll('td');
           for (var index = 0; index < allCells[0].length;
             index += 3) {
-            cols.push(index + colNum);
+            columnCells.push(index + colNum);
           }
 
-          //console.log(cols);
-          var col = d3.selectAll('td')
+          // highlight the cells in our column
+          d3.selectAll('td')
             .filter(function(d, i) {
-              return cols.indexOf(i) > -1;
+              return columnCells.indexOf(i) > -1;
             })
               .style('background-color', 'yellow');
-
-          console.log(cols);
-              
         });
 
       d3.selectAll('td')
         .on('mouseout', function(d, i) {
           unHighlightRow(d3.select(this.parentNode));
-          console.log(cols);
           d3.selectAll('td')
             .filter(function(d, i) {
-              return cols.indexOf(i) > -1;
+              return columnCells.indexOf(i) > -1;
             })
-              .style('background-color', function (d, i) {
-                if (i % 2 == 0) {
-                  return '#d0d0d0';
-                } else {
-                  return '#ffffff';
-                }
-              });
-          cols = [];
+              .style('background-color', null); // remove style
+
+          // reset columns to highlight
+          columnCells = [];
         });
     }
   );
