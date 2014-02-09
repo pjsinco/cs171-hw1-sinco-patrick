@@ -32,16 +32,10 @@
 
       parsed.shift(); // remove header row
 
+
       var rows = tbody.selectAll('tr')
         .data(parsed)
         .enter().append('tr')
-          .style('background-color', function(d, i) {
-            if (i % 2 == 0) {
-              return '#d0d0d0';
-            } else {
-              return '#ffffff';
-            }
-          });
 
       var cells = rows.selectAll('td')
         .data(function(row, i) {
@@ -54,6 +48,20 @@
           .text(function(d) {
             return d;
           });
+
+      // add zebra stripes to rows
+      var stripeRows = function() {
+        tbody.selectAll('tr')
+          .style('background-color', function(d, i) {
+            if (i % 2 == 0) {
+              return '#d0d0d0';
+            } else {
+              return '#ffffff';
+            }
+          });
+      }
+
+      stripeRows();
 
       // keep track of row's original color,
       // before being highlighted
@@ -125,21 +133,14 @@
 
       thead.select('th:nth-child(2)')
         .on('click', function(d, i) {
-          //d3.select(this)
-          //console.log('clicked state header');
-          //d3.selectAll('tr > td:nth-child(2)')
-          console.log(d);
-          console.log(i);
-          //d3.selectAll('tr > td:nth-child(2)')
           tbody.selectAll('tr')
             .sort(function(a, b) {
-              //console.log('compare ', a[1], b[1]);
-              //console.log('b: ' + b);
               return d3.ascending(a[1], b[1]);
-            })
+            });
+          stripeRows();
         });
 
-
+      
 
     } // end d3.text()
   );
