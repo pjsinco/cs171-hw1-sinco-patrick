@@ -116,7 +116,32 @@
           // reset columns to highlight
           columnCells = [];
         });
-    }
+
+      d3.select('th:nth-child(2)')
+        .on('mouseover', function() {
+          d3.select(this)
+            .style('cursor', 'pointer');
+        });
+
+      thead.select('th:nth-child(2)')
+        .on('click', function(d, i) {
+          //d3.select(this)
+          //console.log('clicked state header');
+          //d3.selectAll('tr > td:nth-child(2)')
+          console.log(d);
+          console.log(i);
+          //d3.selectAll('tr > td:nth-child(2)')
+          tbody.selectAll('tr')
+            .sort(function(a, b) {
+              //console.log('compare ', a[1], b[1]);
+              //console.log('b: ' + b);
+              return d3.ascending(a[1], b[1]);
+            })
+        });
+
+
+
+    } // end d3.text()
   );
 
 })();
