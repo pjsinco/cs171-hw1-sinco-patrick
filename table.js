@@ -73,7 +73,7 @@
 
       var unHighlightRow = function(row) {
         row.style('background-color', selectedRowColor);
-        selectedRowColor = '';
+        selectedRowColor = null;
       }
 
       var columnCells = []; // track cell indices to highlight
@@ -125,7 +125,8 @@
           columnCells = [];
         });
 
-      d3.select('th:nth-child(2)')
+      //d3.select('th:nth-child(2)')
+      d3.selectAll('th')
         .on('mouseover', function() {
           d3.select(this)
             .style('cursor', 'pointer');
@@ -140,7 +141,18 @@
           stripeRows();
         });
 
-      
+      thead.select('th:nth-child(3)')
+        .on('click', function() {
+          console.log(this);
+          tbody.selectAll('tr')
+            .sort(function(a, b) {
+              //console.log('compare', parseFloat(a[2]), 
+                //parseFloat(b[2]));
+              return d3.ascending(parseFloat(a[2]),
+                parseFloat(b[2]));
+            });
+          stripeRows();
+        });
 
     } // end d3.text()
   );
