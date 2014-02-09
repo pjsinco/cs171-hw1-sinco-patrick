@@ -32,7 +32,6 @@
 
       parsed.shift(); // remove header row
 
-
       var rows = tbody.selectAll('tr')
         .data(parsed)
         .enter().append('tr')
@@ -132,13 +131,31 @@
             .style('cursor', 'pointer');
         });
 
+
+      var reOrder = function(order) {
+        tbody.selectAll('tr')
+          .sort(function(a, b) {
+            if (order == 'asc') {
+              return d3.descending(a[1], b[1]);
+            } else {
+              return d3.ascending(a[1], b[1]);
+            }
+        });
+      }
+
       // sort by state name
       thead.select('th:nth-child(2)')
         .on('click', function(d, i) {
-          tbody.selectAll('tr')
-            .sort(function(a, b) {
-              return d3.ascending(a[1], b[1]);
+
+          // check the class so we know how to sort
+          var curOrder = d3.select(this).attr('class');
+          reOrder(curOrder);
+
+          d3.select(this)
+            .attr('class', function() {
+              return curOrder == 'asc' ? 'desc' : 'asc';
             });
+
           stripeRows();
         });
 
