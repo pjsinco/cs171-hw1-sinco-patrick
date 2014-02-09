@@ -6,12 +6,12 @@
     'unemp_states_us_nov_2013.tsv', 
     'text/plain', 
     function(data) {
-      d3.tsv.parseRows(data);
+      var parsed = d3.tsv.parseRows(data);
       var table = d3.select('body').append('table');
       var tbody = table.append('tbody');
 
       var rows = tbody.selectAll('tr')
-        .data(d3.tsv.parseRows(data))
+        .data(parsed)
         .enter().append('tr');
 
       var cells = rows.selectAll('td')
