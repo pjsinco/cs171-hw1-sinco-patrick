@@ -36,7 +36,14 @@
 
       var rows = tbody.selectAll('tr')
         .data(parsed)
-        .enter().append('tr');
+        .enter().append('tr')
+          .style('background-color', function(d, i) {
+            if (i % 2 == 0) {
+              return '#d0d0d0';
+            } else {
+              return '#ffffff';
+            }
+          });
 
       var cells = rows.selectAll('td')
         .data(function(row, i) {
