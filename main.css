@@ -39,4 +39,10 @@ h1 {
   font-weight: normal;
 }
 
+th.asc {
+  cursor: n-resize;
+}
 
+th.desc {
+  cursor: s-resize;
+}

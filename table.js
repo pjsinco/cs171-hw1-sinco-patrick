@@ -23,19 +23,28 @@
 
       console.log(title);
  
+      // set the column headers
       thead.selectAll('th')
         .data(parsed[0])
         .enter().append('th')
+          .attr('class', function(d, i) {
+            // only add to 2nd, 3rd cols
+            if (i != 0) {
+              return 'asc'; 
+            }
+          })
           .text(function(d) {
             return d;
           });
 
       parsed.shift(); // remove header row
 
+      // create all the empty rows we'll need
       var rows = tbody.selectAll('tr')
         .data(parsed)
         .enter().append('tr')
 
+      // create all the cells and populate each with a datum
       var cells = rows.selectAll('td')
         .data(function(row, i) {
           return d3.range(Object.keys(row).length)
@@ -125,10 +134,20 @@
         });
 
       //d3.select('th:nth-child(2)')
-      d3.selectAll('th')
+      //thead.selectAll('th:not(:first-child)')
+      thead.selectAll('th')
         .on('mouseover', function() {
           d3.select(this)
-            .style('cursor', 'pointer');
+            .style('class', function() {
+              var headerClass = d3.select(this)
+                .attr('class');
+              if (headerClass == 'desc') {
+                return 'asc'; 
+              } else if (headerClass == 'asc') {
+                return 'desc'; 
+              }
+            });
+            //.style('cursor', 'pointer');
         });
 
       var reOrder = function(rows, order, col) {
@@ -172,7 +191,8 @@
               if (curOrder == 'desc') {
 
                 // if we have a rate tie, first sort by state name
-                if (d3.ascending(parseFloat(a[2]), parseFloat(b[2])) == 0) {
+                if (d3.ascending(parseFloat(a[2]), parseFloat(b[2])) 
+                  == 0) {
 
                   // return the sorted state names
                   return d3.ascending(a[1], b[1]); 
@@ -182,7 +202,8 @@
               } else {
 
                 // if we have a rate tie, first sort by state name
-                if (d3.descending(parseFloat(a[2]), parseFloat(b[2])) == 0) {
+                if (d3.descending(parseFloat(a[2]), parseFloat(b[2])) 
+                  == 0) {
 
                   // return the sorted state names
                   return d3.descending(a[1], b[1]); 
