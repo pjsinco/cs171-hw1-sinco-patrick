@@ -131,17 +131,17 @@
             .style('cursor', 'pointer');
         });
 
-
-      var reOrder = function(order) {
-        tbody.selectAll('tr')
-          .sort(function(a, b) {
-            if (order == 'asc') {
-              return d3.descending(a[1], b[1]);
-            } else {
-              return d3.ascending(a[1], b[1]);
-            }
+      var reOrder = function(rows, order, col) {
+        rows.sort(function(a, b) {
+          if (order == 'asc') {
+            return d3.descending(a[col], b[col]);
+          } else {
+            return d3.ascending(a[col], b[col]);
+          }
         });
       }
+
+      stripeRows();
 
       // sort by state name
       thead.select('th:nth-child(2)')
@@ -149,7 +149,8 @@
 
           // check the class so we know how to sort
           var curOrder = d3.select(this).attr('class');
-          reOrder(curOrder);
+          var rows = (tbody.selectAll('tr'));
+          reOrder(rows, curOrder, 1);
 
           d3.select(this)
             .attr('class', function() {
@@ -165,6 +166,7 @@
 
           // check the class so we know how to sort
           var curOrder = d3.select(this).attr('class');
+          //var row = 
          
           if (curOrder == 'desc') { 
 
@@ -188,8 +190,6 @@
                 return d3.descending(parseFloat(a[2]),
                   parseFloat(b[2]));
               });
-
-
           }
 
           d3.select(this)
