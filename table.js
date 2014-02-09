@@ -11,19 +11,21 @@
       var thead = table.append('thead').append('tr');
       var tbody = table.append('tbody');
 
-      thead.selectAll('td')
+      thead.selectAll('th')
         .data(parsed[0])
-        .enter().append('td')
+        .enter().append('th')
           .text(function(d) {
             return d;
           });
+
+      parsed.shift(); // remove header
 
       var rows = tbody.selectAll('tr')
         .data(parsed)
         .enter().append('tr');
 
       var cells = rows.selectAll('td')
-        .data(function(row) {
+        .data(function(row, i) {
           return d3.range(Object.keys(row).length)
             .map(function(column, i) {
               return row[Object.keys(row)[i]];             
