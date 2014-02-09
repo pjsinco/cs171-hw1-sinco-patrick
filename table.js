@@ -8,7 +8,15 @@
     function(data) {
       var parsed = d3.tsv.parseRows(data);
       var table = d3.select('body').append('table');
+      var thead = table.append('thead').append('tr');
       var tbody = table.append('tbody');
+
+      thead.selectAll('td')
+        .data(parsed[0])
+        .enter().append('td')
+          .text(function(d) {
+            return d;
+          });
 
       var rows = tbody.selectAll('tr')
         .data(parsed)
