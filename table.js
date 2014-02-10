@@ -130,8 +130,6 @@
 
       var columnCells = []; // track cell indices to highlight
 
-      console.log('hi');
-      console.log(thead.selectAll('th')[0].length);
 
       /*
        * Highlight column and row on hover
@@ -166,7 +164,6 @@
             columnCells.push(index + colNum);
           }
 
-          console.log(columnCells);
 
           // highlight the cells in our column
           d3.selectAll('td')
@@ -226,7 +223,7 @@
       }
 
       /*
-       * Sort by state name
+       * Sort by State 
        */
       thead.select('th:nth-child(2)')
         .on('click', function(d, i) {
@@ -245,48 +242,53 @@
         });
 
       /*
-       * Sort by rate
+       * Sort by Rate or Chart
        */
-      thead.select('th:nth-child(3)')
-        .on('click', function(d, i) {
+      thead.selectAll('th')
+        .filter(function(d, i) {
+          return i > 1;
+        })
+          .on('click', function(d, i) {
 
-          // check the class so we know how to sort
-          var curOrder = d3.select(this).attr('class');
+            console.log(this);
 
-          tbody.selectAll('tr')
-            .sort(function(a, b) {
-              if (curOrder == 'desc') {
+            // check the class so we know how to sort
+            var curOrder = d3.select(this).attr('class');
 
-                // if we have a rate tie, first sort by state name
-                if (d3.ascending(parseFloat(a[2]), parseFloat(b[2])) 
-                  == 0) {
+            tbody.selectAll('tr')
+              .sort(function(a, b) {
+                if (curOrder == 'desc') {
 
-                  // return the sorted state names
-                  return d3.ascending(a[1], b[1]); 
+                  // if we have a rate tie, first sort by state name
+                  if (d3.ascending(parseFloat(a[2]), parseFloat(b[2])) 
+                    == 0) {
+
+                    // return the sorted state names
+                    return d3.ascending(a[1], b[1]); 
+                  }
+                  return d3.ascending(parseFloat(a[2]),
+                    parseFloat(b[2]));
+                } else {
+
+                  // if we have a rate tie, first sort by state name
+                  if (d3.descending(parseFloat(a[2]), parseFloat(b[2])) 
+                    == 0) {
+
+                    // return the sorted state names
+                    return d3.descending(a[1], b[1]); 
+                  }
+                  return d3.descending(parseFloat(a[2]),
+                    parseFloat(b[2]));
                 }
-                return d3.ascending(parseFloat(a[2]),
-                  parseFloat(b[2]));
-              } else {
+              });
 
-                // if we have a rate tie, first sort by state name
-                if (d3.descending(parseFloat(a[2]), parseFloat(b[2])) 
-                  == 0) {
+            d3.select(this)
+              .attr('class', function() {
+                return curOrder == 'asc' ? 'desc' : 'asc';
+              });
 
-                  // return the sorted state names
-                  return d3.descending(a[1], b[1]); 
-                }
-                return d3.descending(parseFloat(a[2]),
-                  parseFloat(b[2]));
-              }
-            });
-
-          d3.select(this)
-            .attr('class', function() {
-              return curOrder == 'asc' ? 'desc' : 'asc';
-            });
-
-          stripeRows();
-        });
+            stripeRows();
+          });
 
 
     } // end d3.text()
