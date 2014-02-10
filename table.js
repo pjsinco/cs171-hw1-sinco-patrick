@@ -21,8 +21,6 @@
       d3.select('caption')
         .html(title);
 
-      console.log(title);
- 
       // set the column headers
       thead.selectAll('th')
         .data(parsed[0])
@@ -57,13 +55,31 @@
             return d;
           });
 
-      var color = d3.scale.linear()
-        .domain([0, tbody.selectAll('tr')[0].length - 1])
+      // gather all the rates
+      var allRates = [];
+      tbody.selectAll('tr')
+        .each(function(d, i) {
+          allRates.push(d[d.length - 1]);
+        });
+
+      var colorScale = d3.scale.linear()
+        .domain([d3.min(allRates), d3.max(allRates)])
         .interpolate(d3.interpolateRgb)
         .range(['orangered', 'silver']);
-
-      //console.log(color(5));
-
+    
+      var colorRates = function() {
+        tbody.selectAll('tr').selectAll('td')
+          .filter(function(d, i) {
+            return i == 2; // get the rate column
+          })
+            .style('background-color', function (d, i) {
+              //console.log(colorScale(d));
+              return colorScale(d)
+            });
+      }
+      
+      colorRates(); 
+  
       // add zebra stripes to rows
       var stripeRows = function() {
         tbody.selectAll('tr')
@@ -78,8 +94,8 @@
 
       stripeRows();
 
-      // keep track of row's original color,
-      // before being highlighted
+      // keep track of row's original color
+      // before it was highlighted
       var selectedRowColor;
 
       var highlightRow = function(row) {
@@ -93,6 +109,9 @@
 
       var columnCells = []; // track cell indices to highlight
 
+      /*
+       * Highlight column and row on hover
+       */
       d3.selectAll('td')
         .on('mouseover', function(d, i) {
 
@@ -127,6 +146,9 @@
               .style('background-color', 'yellow');
         });
 
+      /*
+       * Restore colors on mouseout
+       */
       d3.selectAll('td')
         .on('mouseout', function(d, i) {
           unHighlightRow(d3.select(this.parentNode));
@@ -138,10 +160,14 @@
 
           // reset columns to highlight
           columnCells = [];
+
+          colorRates();
         });
 
-      //d3.select('th:nth-child(2)')
-      //thead.selectAll('th:not(:first-child)')
+      /*
+       * Set the appropriate 'asc' or 'desc' class
+       * table header columns
+       */
       thead.selectAll('th')
         .on('mouseover', function() {
           d3.select(this)
@@ -154,9 +180,11 @@
                 return 'desc'; 
               }
             });
-            //.style('cursor', 'pointer');
         });
 
+      /*
+       * Helper function to sort rows
+       */
       var reOrder = function(rows, order, col) {
         rows.sort(function(a, b) {
           if (order == 'asc') {
@@ -167,9 +195,9 @@
         });
       }
 
-      stripeRows();
-
-      // sort by state name
+      /*
+       * Sort by state name
+       */
       thead.select('th:nth-child(2)')
         .on('click', function(d, i) {
 
@@ -186,7 +214,9 @@
           stripeRows();
         });
 
-      // sort by rate 
+      /*
+       * Sort by rate
+       */
       thead.select('th:nth-child(3)')
         .on('click', function(d, i) {
 
@@ -228,7 +258,6 @@
           stripeRows();
         });
 
-      //console.log(tbody.selectAll('tr')[0].length);
 
     } // end d3.text()
   );
