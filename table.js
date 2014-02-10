@@ -24,16 +24,25 @@
       // set the column headers
       thead.selectAll('th')
         .data(parsed[0])
-        .enter().append('th')
-          .attr('class', function(d, i) {
-            // only add to 2nd, 3rd cols
-            if (i != 0) {
-              return 'asc'; 
-            }
-          })
-          .text(function(d) {
-            return d;
-          });
+        .enter()
+          .append('th')
+            .text(function(d) {
+              return d;
+            });
+
+      // add the extra Chart col
+      thead.append('th')
+        .text('Chart');
+
+      thead.selectAll('th')
+        .attr('class', function(d, i) {
+          // only add to 2nd, 3rd cols
+          if (i != 0) {
+            return 'asc'; 
+          }
+        })
+
+
 
       parsed.shift(); // remove header row
 
@@ -41,6 +50,7 @@
       var rows = tbody.selectAll('tr')
         .data(parsed)
         .enter().append('tr')
+
 
       // create all the cells and populate each with a datum
       var cells = rows.selectAll('td')
@@ -55,6 +65,17 @@
             return d;
           });
 
+      var width = 40;
+      var height = 10;
+      rows.insert('td').append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('rect')
+          .attr('height', height)
+          .attr('width', function(d, i) {
+            return parseFloat(d[0]);
+          });
+      
       // gather all the rates
       var allRates = [];
       tbody.selectAll('tr')
@@ -109,11 +130,17 @@
 
       var columnCells = []; // track cell indices to highlight
 
+      console.log('hi');
+      console.log(thead.selectAll('th')[0].length);
+
       /*
        * Highlight column and row on hover
        */
       d3.selectAll('td')
         .on('mouseover', function(d, i) {
+
+          var numCells = d3.selectAll('td')[0].length;
+          var numCols = thead.selectAll('th')[0].length
 
           // keep track the color of the row
           selectedRowColor = this.parentNode.style.backgroundColor;
@@ -123,20 +150,23 @@
 
           // set column number to highlight: 0, 1 or 2
           var colNum;
-          if (i % 3 == 0) {
+          if (i % numCols == 0) {
             colNum = 0;
-          } else if ((i - 1) % 3 == 0) {
+          } else if ((i - 1) % numCols == 0) {
             colNum = 1; 
-          } else {
+          } else if ((i - 2) % numCols == 0) {
             colNum = 2;
+          } else {
+            colNum = 3;
           }
 
+
           // add all cells in the column to highlight
-          var allCells = d3.selectAll('td');
-          for (var index = 0; index < allCells[0].length;
-            index += 3) {
+          for (var index = 0; index < numCells; index += numCols) {
             columnCells.push(index + colNum);
           }
+
+          console.log(columnCells);
 
           // highlight the cells in our column
           d3.selectAll('td')
