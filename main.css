@@ -12,7 +12,7 @@ table {
 
 th, td {
   text-align: left;
-  padding: 0 6px;
+  padding: 3px 6px;
   border: 1px solid #f5f5f5;
 }
 
@@ -45,4 +45,8 @@ th.asc {
 
 th.desc {
   cursor: s-resize;
+}
+
+svg rect {
+  fill: rgb(95, 111, 160);
 }
