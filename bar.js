@@ -59,7 +59,7 @@
       xScale.domain([min, max]);
       yScale.domain(data.map(state));
 
-      console.log(yScale('IOWA'));
+      //console.log(yScale('ILLINOIS'));
 
       var groups = g.append("g")
         .selectAll("g")
@@ -106,19 +106,24 @@
           return d.State;
         });
 
+     var button = d3.select('button')
+       .on('click', function() {
+         //console.log(bars.selectAll('g'));
+       });
+
+      //console.log(yScale('IOWA'));
 
       var reorder = function() {
         data.sort(function(a, b) {
           //console.log('compare a.State, b.State: ', a.State, b.State);
           // sort by state
           //if (document.getElementById('state').checked) {
-            return d3.ascending(a.State, b.State);
+          console.log(yScale('ILLINOIS'));
+          return d3.ascending(a.State, b.State);
           //} else {
             //return d3.ascending(a.Rate, b.Rate);
           //}
         });
-
-        console.log(yScale('IOWA'));
 
         bars
           .transition()
@@ -128,8 +133,10 @@
               return i * 10;
             })
             .attr('transform', function(d, i) {
-              console.log(d.State);
-              return 'translate(0, ' + yScale(d.State) + ')';
+              //console.log(d.State);
+              console.log(yScale('ILLINOIS'));
+              //console.log(i);
+              return 'translate(0, ' + yScale(d.state) + ')';
             });
       }
 
