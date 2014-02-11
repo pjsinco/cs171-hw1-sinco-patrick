@@ -42,15 +42,12 @@
           }
         })
 
-
-
       parsed.shift(); // remove header row
 
       // create all the empty rows we'll need
       var rows = tbody.selectAll('tr')
         .data(parsed)
         .enter().append('tr')
-
 
       // create all the cells and populate each with a datum
       var cells = rows.selectAll('td')
@@ -158,12 +155,10 @@
             colNum = 3;
           }
 
-
           // add all cells in the column to highlight
           for (var index = 0; index < numCells; index += numCols) {
             columnCells.push(index + colNum);
           }
-
 
           // highlight the cells in our column
           d3.selectAll('td')
@@ -212,7 +207,7 @@
       /*
        * Helper function to sort rows
        */
-      var reOrder = function(rows, order, col) {
+      var reorder = function(rows, order, col) {
         rows.sort(function(a, b) {
           if (order == 'asc') {
             return d3.descending(a[col], b[col]);
@@ -231,7 +226,7 @@
           // check the class so we know how to sort
           var curOrder = d3.select(this).attr('class');
           var rows = (tbody.selectAll('tr'));
-          reOrder(rows, curOrder, 1);
+          reorder(rows, curOrder, 1);
 
           d3.select(this)
             .attr('class', function() {

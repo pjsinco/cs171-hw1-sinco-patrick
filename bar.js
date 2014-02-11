@@ -23,6 +23,15 @@
       return d.State; 
     };
 
+//    var stateButton = 
+//      '<label><input type="radio" name="order" value="state">';
+//    stateButton += 'State</label>';
+//    var rateButton = 
+//      '<label><input type="radio" name="order" value="rate" checked>';
+//    rateButton += 'Rate</label>';
+  
+
+
     var svg = d3.select("body").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom);
@@ -93,6 +102,37 @@
         .attr('text-anchor', 'end')
         .text(function(d) {
           return d.State;
+        });
+
+
+      var reorder = function() {
+        data.sort(function(a, b) {
+          // sort by state
+          if (document.getElementById('state').checked) {
+            return d3.ascending(a.State, b.State);
+          } else {
+            return d3.ascending(a.Rate, b.Rate);
+          }
+        });
+      }
+
+
+      d3.selectAll('input')
+        //.on('change', reorder);
+        .on('change', function(d, i) {
+          console.log('d: ' , d);
+          reorder();
+    
+          bars
+            .transition()
+              .duration(750)
+              .delay(function(d, i) {
+                return i * 10;
+              })
+              .attr('transform', function(d, i) {
+                console.log(d);
+                //return 'translate(0, ' + barHeight + ')';
+              });
         });
 
     });

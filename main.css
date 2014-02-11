@@ -50,3 +50,7 @@ th.desc {
 svg rect {
   fill: rgb(95, 111, 160);
 }
+
+.chart_control {
+  float: left;
+}
