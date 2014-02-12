@@ -99,7 +99,7 @@
         .attr('x', 0)
         .attr('dx', -10)
         .attr('y', function() {
-          return barHeight / 2;
+          return (barHeight / 2) + 2;
         })
         .attr('text-anchor', 'end')
         .text(function(d) {
@@ -115,28 +115,24 @@
 
       var reorder = function() {
         data.sort(function(a, b) {
-          //console.log('compare a.State, b.State: ', a.State, b.State);
           // sort by state
-          //if (document.getElementById('state').checked) {
-          console.log(yScale('ILLINOIS'));
-          return d3.ascending(a.State, b.State);
-          //} else {
-            //return d3.ascending(a.Rate, b.Rate);
-          //}
+          if (document.getElementById('state').checked) {
+            return d3.ascending(a.State, b.State);
+          } else {
+            return d3.ascending(a.Rate, b.Rate);
+          }
         });
 
         // update yScale domain after sorting
         yScale.domain(data.map(state));
         
-        bars
+        groups
           .transition()
             .duration(750)
             .delay(function(d, i) {
               return i * 10;
             })
             .attr('transform', function(d, i) {
-              //console.log(d.State);
-              console.log(yScale('ILLINOIS'));
               return 'translate(0, ' + yScale(d.State)  + ')';
             });
       }
