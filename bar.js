@@ -118,25 +118,31 @@
           //console.log('compare a.State, b.State: ', a.State, b.State);
           // sort by state
           //if (document.getElementById('state').checked) {
-          console.log(yScale('ILLINOIS'));
+          console.log(yScale('ALABAMA'));
           return d3.ascending(a.State, b.State);
           //} else {
             //return d3.ascending(a.Rate, b.Rate);
           //}
         });
 
+        // update yScale domain after sorting
+        yScale.domain(data.map(state));
+        
+
         bars
           .transition()
-            .duration(750)
+            .duration(5750)
             .delay(function(d, i) {
               //console.log(d);
               return i * 10;
             })
             .attr('transform', function(d, i) {
               //console.log(d.State);
-              console.log(yScale('ILLINOIS'));
               //console.log(i);
-              return 'translate(0, ' + yScale(d.state) + ')';
+              console.log(i);
+              console.log(this);
+              console.log(d.State);
+              return 'translate(0, ' + yScale(d.State)  + ')';
             });
       }
 
