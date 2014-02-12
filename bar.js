@@ -118,7 +118,7 @@
           //console.log('compare a.State, b.State: ', a.State, b.State);
           // sort by state
           //if (document.getElementById('state').checked) {
-          console.log(yScale('ALABAMA'));
+          console.log(yScale('ILLINOIS'));
           return d3.ascending(a.State, b.State);
           //} else {
             //return d3.ascending(a.Rate, b.Rate);
@@ -128,20 +128,15 @@
         // update yScale domain after sorting
         yScale.domain(data.map(state));
         
-
         bars
           .transition()
-            .duration(5750)
+            .duration(750)
             .delay(function(d, i) {
-              //console.log(d);
               return i * 10;
             })
             .attr('transform', function(d, i) {
               //console.log(d.State);
-              //console.log(i);
-              console.log(i);
-              console.log(this);
-              console.log(d.State);
+              console.log(yScale('ILLINOIS'));
               return 'translate(0, ' + yScale(d.State)  + ')';
             });
       }
