@@ -14,7 +14,6 @@
     var xScale = d3.scale.linear()
       .range([0, width]);
     var yScale = d3.scale.ordinal()
-      //.domain(['Homer', 'Marge', 'Bart', 'Lisa', 'Maggie'])
       .rangeRoundBands([0, height], 0.8, 0);
 
     var barHeight = 15;
@@ -23,19 +22,9 @@
       return d.State; 
     };
 
-//    var stateButton = 
-//      '<label><input type="radio" name="order" value="state">';
-//    stateButton += 'State</label>';
-//    var rateButton = 
-//      '<label><input type="radio" name="order" value="rate" checked>';
-//    rateButton += 'Rate</label>';
-  
-
-
     var svg = d3.select("body").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom);
-
 
     var g = svg.append("g")
       .attr("transform", "translate(" 
@@ -47,8 +36,8 @@
       .style('font-size', 18)
       .style('font-weight', 'bold')
       .text('Unemployment Rates for States');
-      
 
+    // load the tsv
     d3.tsv("unemp_states_us_nov_2013.tsv", function(data) {
 
       var max = d3.max(data, function(d) { 
@@ -58,8 +47,11 @@
 
       xScale.domain([min, max]);
       yScale.domain(data.map(state));
-
-      //console.log(yScale('ILLINOIS'));
+      
+      var colorScale = d3.scale.linear()
+        .domain([min, max])
+        .interpolate(d3.interpolateRgb)
+        .range(['orangered', 'silver']);
 
       var groups = g.append("g")
         .selectAll("g")
@@ -75,7 +67,11 @@
         .attr("width", function(d) { 
           return xScale(d.Rate); 
         })
-        .attr("height", barHeight);
+        .attr("height", barHeight)
+        .attr('fill', function(d, i) {
+          return colorScale(d.Rate);
+        });
+
 
       // add rates to bars
       groups.append('text')
