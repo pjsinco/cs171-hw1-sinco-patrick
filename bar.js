@@ -111,18 +111,43 @@
          //console.log(bars.selectAll('g'));
        });
 
+      var curOrder; // sort order of bars
+
       var reorder = function() {
+
+        // determine which button is checked
+        var sortItem = (document.getElementById('state').checked) ?
+          'state' : 'rate';
+
+        curOrder = d3.select('input')
+          .attr('class')
+
         data.sort(function(a, b) {
           // sort by state
-          if (document.getElementById('state').checked) {
-            return d3.ascending(a.State, b.State);
-          } else {
-            if (d3.ascending(a.Rate, b.Rate) == 0) {
+          if (sortItem == 'state') {
+            if (curOrder == 'asc') {
               return d3.ascending(a.State, b.State);
+            } else  {
+              return d3.descending(a.State, b.State);
             }
-              return d3.ascending(a.Rate, b.Rate);
+          } else { // input is rate
+            if (curOrder == 'asc') {
+              if (d3.ascending(a.Rate, b.Rate) == 0) {
+                return d3.ascending(a.State, b.State);
+              } else {
+                return d3.ascending(a.Rate, b.Rate);
+              }
+            } else {
+              if (d3.descending(a.Rate, b.Rate) == 0) {
+                return d3.descending(a.State, b.State);
+              } else {
+                return d3.descending(a.Rate, b.Rate);
+              }
+            }
           }
+
         });
+
 
         // update yScale domain after sorting
         yScale.domain(data.map(state));
@@ -136,11 +161,23 @@
             .attr('transform', function(d, i) {
               return 'translate(0, ' + yScale(d.State)  + ')';
             });
-      }
+
+
+      };
+
+      d3.selectAll('input')
+        .attr('class', 'asc');
 
       d3.selectAll('input')
         .on('change', reorder);
 
-    });
+      d3.selectAll('input')
+        .on('click', function() {
+          reorder();        
+          
+        });
+
+
+    }); // end d3.tsv()
 
 })();
