@@ -111,15 +111,16 @@
          //console.log(bars.selectAll('g'));
        });
 
-      //console.log(yScale('IOWA'));
-
       var reorder = function() {
         data.sort(function(a, b) {
           // sort by state
           if (document.getElementById('state').checked) {
             return d3.ascending(a.State, b.State);
           } else {
-            return d3.ascending(a.Rate, b.Rate);
+            if (d3.ascending(a.Rate, b.Rate) == 0) {
+              return d3.ascending(a.State, b.State);
+            }
+              return d3.ascending(a.Rate, b.Rate);
           }
         });
 
