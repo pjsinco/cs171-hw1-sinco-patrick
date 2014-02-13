@@ -119,8 +119,10 @@
         var sortItem = (document.getElementById('state').checked) ?
           'state' : 'rate';
 
-        curOrder = d3.select('input')
-          .attr('class')
+        // determine how to sort based on whether the 
+        // input's class is set to asc or desc
+        curOrder = d3.select("input[value='" + sortItem + "']")
+          .attr('class');
 
         data.sort(function(a, b) {
           // sort by state
@@ -130,10 +132,10 @@
             } else  {
               return d3.descending(a.State, b.State);
             }
-          } else { // input is rate
+          } else { // sort by rate
             if (curOrder == 'asc') {
-              if (d3.ascending(a.Rate, b.Rate) == 0) {
-                return d3.ascending(a.State, b.State);
+              if (d3.ascending(a.Rate, b.Rate) == 0) { // we have a tie
+                return d3.ascending(a.State, b.State); // so sort alpha
               } else {
                 return d3.ascending(a.Rate, b.Rate);
               }
@@ -146,8 +148,7 @@
             }
           }
 
-        });
-
+        }); // end sort()
 
         // update yScale domain after sorting
         yScale.domain(data.map(state));
@@ -161,20 +162,28 @@
             .attr('transform', function(d, i) {
               return 'translate(0, ' + yScale(d.State)  + ')';
             });
+      }; // end reorder()
 
-
-      };
-
+      // set both inputs to 'asc'
       d3.selectAll('input')
         .attr('class', 'asc');
 
+      // when user hits a radio button, reorder the bars
       d3.selectAll('input')
         .on('change', reorder);
 
+      // sort again on clicking the same radio button
       d3.selectAll('input')
         .on('click', function() {
           reorder();        
-          
+      
+          // toggle asc/desc on button
+          var btn = d3.select(this);
+          curOrder = btn.attr('class');
+          btn.attr('class', function() {
+            return curOrder == 'asc' ? 'desc' : 'asc'
+          });
+
         });
 
 
