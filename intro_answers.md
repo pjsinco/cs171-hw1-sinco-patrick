@@ -9,8 +9,8 @@
 
 * [Baseball-Reference.com](http://www.baseball-reference.com/teams/DET/2013.shtml) : The volume of information is joyous.
 
-* [Wrigley Field scoreboard](http://www.flickr.com/photos/69931545@N00/6170688389/in/photolist-aphoF8-aJkmyT-cPMQPy-7EXGPD-dvKsDb-db7LZq-cy1H13-7PkNrw-8E49hL-9MzujC-9MzsSA-9MwF2T-9Mzr9u-9MzuTb-7xPNGf-89ba46-8v8tyz-8vbwom-asHSsq-9Lk1Re-agLjQi-aoAERC-eiKgbs-eiDx8e-82ZyLx-dLn9do-cGCzUs-7Q4ht2-7Q7z3d-ajHuLq-8DSd4K-7Rd6ws): A design intact since 1937; a neighborhood fixture; a national treasure.
+* [Wrigley Field scoreboard](http://www.flickr.com/photos/69931545@N00/6170688389/in/photolist-aphoF8-aJkmyT-cPMQPy-7EXGPD-dvKsDb-db7LZq-cy1H13-7PkNrw-8E49hL-9MzujC-9MzsSA-9MwF2T-9Mzr9u-9MzuTb-7xPNGf-89ba46-8v8tyz-8vbwom-asHSsq-9Lk1Re-agLjQi-aoAERC-eiKgbs-eiDx8e-82ZyLx-dLn9do-cGCzUs-7Q4ht2-7Q7z3d-ajHuLq-8DSd4K-7Rd6ws): An iconic display of tabular information, whose design is all but unchanged since it was built in 1937. Its [data binding](http://10rempatrick.com/images/ct-biz-0418-wrigley-history-a-jpg-20130417.jpg) is quite unlike D3's.
 
-* [McDonald's menu](http://paulsporterhouse.com/printable-menu-with-prices/mcdonalds-printable-menu-with-prices): A visual feast. Words are numbers are secondary when you're hungry. What *looks* good to eat?
+* [McDonald's menu](http://paulsporterhouse.com/printable-menu-with-prices/mcdonalds-printable-menu-with-prices): A visual feast. Words and numbers are secondary when you're hungry. What *looks* good to eat?
 
 
